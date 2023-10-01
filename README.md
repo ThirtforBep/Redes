@@ -11,10 +11,15 @@ Bernal Pérez Luis Ángel
 
 -3.- Configuraciones
 
--Respuestas a las preguntas solicitadas en la aplicación presentada.
+-4.- Pruebas
 
--Validaciones
+-5.- Circuito Armado
 
+-6.- Analisis y procesos
+
+7.- Conclusiones
+
+8.- Referencias
 
 ## 1.- Diagrama
 ![image](https://github.com/ThirtforBep/Redes/blob/main/Diagrama.png)
@@ -346,5 +351,70 @@ Destination filename [startup-config]?
 Building configuration...
 
 [OK]
+## 4.- Pruebas
+### 4.1- DHCP IPV6 IMPLEMENTADO
+![image](https://github.com/ThirtforBep/Redes/blob/main/Pruebas.png)
+### 4.2- COMUNICACIÓN COMPUTADORAS
+![image](https://github.com/ThirtforBep/Redes/blob/main/Pruebas2.png)
+### 4.3- ROUTER CONFIGURADO
+![image](https://github.com/ThirtforBep/Redes/blob/main/RouterConf.png)
+### 4.4- SWITCH CONFIGURADO
+![image](https://github.com/ThirtforBep/Redes/blob/main/SwitchConf.png)
+
+## 5.- Circuito Armado
+![image](https://github.com/ThirtforBep/Redes/blob/main/PracticaArmada.png)
+
+## 6.- Analisis y procesos
+### 6.1 Tablas  de  enrutamientoIPv4  e  IPv6de  los  routers  ISP_BOG  e  ISP_ESP
+### 6.1.1 Información relevante
+Estos espacios tras su investigación, resultaron convenitentes para la migración, ya que encontramos a:
+
+-Dual Stack: Necesitamos asignación adicional de direcciones IPv4 y agrega complejidad a la administración de la red
+
+-Translators: Es la última opción
+
+-Tunelling: Requiere tan solo de configurar dos routers de frontera para la creación del tunel virtual y su configuración es 
+acercada a lo siguiente:
+
+#interface tunnel 0 
+
+#ipv6 address direccion_router_adjunto
+
+#tunnel source Serial#/#/#
+
+#tunnel destination direccion_router
+
+#tunnel mode ipv6ip
+
+### 6.1.2 Criterio mejor ruta
+Para efectos de esta práctica se usarían EIGRP Y OSPF, ya que son los que dadas las condiciones de las distancias entre routers, pueden intercambiar datos y 
+complementarse
+
+## 7.- Conclusiones
+La elaboración de esta práctica fue sumamente laboriosa, pero sumamente satisfactoria, ya que me dejo estudiar temas que en la práctica anterior no me habían quedado claros, 
+tal es el ejemplo de las vlans, las cuales después de 3 horas de investigación me pude dar cuenta que son sumamente útiles ya que permiten que los usuarios programen un rango de redes
+las cuales si en un hipotetico caso caen, no es necesario montar otro switch, sino que solamente se desabilita un pedazo por decirlo de algún modo, dando como resultado un ahorro de costos y el cómo 
+la conexión entre vlanes solo se limita por el uso de routers que son los intermediarios de todos.
+Por otro lado, un tema que aunque no termine de implementar como me hubiera gustado, también me resulto muy complicado, pero una vez que deje de ver un todo por un algo, fue sumamente sencillo fue el subneteo
+de redes ipv6, ya que pensaba que manejaba procesos todavía más "complicados" que el IPV4, pero después de una investigación no tan elaborada como los vlanes, te das cuenta que al momento de tratarse de protocolos que justamente buscan tener más espacio para todos los usuarios y por ende que ya no busque la escalabilidad, te das cuenta que su subneteo se limita a decidir que tanto espacio quieres para tus redes.
+Adicionalmente, el manejo del DHCP, como se mencionó en el video, fue mediante la ayuda del Router, lo cual fue fascinante, ya que la primera vez que tuve conocimiento de este protocolo, fue una situación la cual me causo un poco de problemas ya que estaba conectando todo y asignando muchas ips, caso que cambia cuando le indicas al router que no deseas tantos problemas y que haga todo.
+Finalmente, otro tema que me resulto sumamente interesante fue el Access List, ya que no estaba entendiendo al principio cómo es que unías toda la parte de tu página web y le dabas un puerto para que pudiera acceder mediante routers o cómo era lo del dominio, pero cuando caes en cuenta que solamente es asignar estáticamente tus ips y el index es la unión de todo tu código, caes en cuenta que las cosas no son tan complicadas como se pensaba.
+
+## 8.- Referencias
+Miguelangel Medina. (2023, 12 junio). Configurar Server DHCP en IPv6 con Estado (Stateful) y sin Estado (Stateless) [Vídeo]. YouTube. https://www.youtube.com/watch?v=0d5YsSAKIxg
+
+Arumadigital. (2015, 24 marzo). Redes 200 IPV6 DHCPV6 [Vídeo]. YouTube. https://www.youtube.com/watch?v=_cJ2cd5KbVg
+
+Academia de Redes IP - Aprende Facil. (2022, 31 agosto). VLANs ¿Qué son? ¿Para qué se utilizan? - Explicación animada, rápida y fácil - VLAN (Virtual LAN) [Vídeo]. YouTube. https://www.youtube.com/watch?v=n8j9UcDsV2g
+
+Gavin Lewis. (2019, 7 noviembre). Creating simple tunnel using Cisco Packet tracer in 10 minutes [Vídeo]. YouTube. https://www.youtube.com/watch?v=uQbe-Kr1RWA
+
+Jacobo Villagrana. (2016, 7 diciembre). Configurar un servidor DNS en packet tracer [Vídeo]. YouTube. https://www.youtube.com/watch?v=1-1eC_k7Iuk
+
+El profe García. (2013, 30 enero). WEB & DNS servidor con Cisco- packet Tracer [Vídeo]. YouTube. https://www.youtube.com/watch?v=JTAvQQ5PPmk
+
+https://www.youtube.com/watch?v=GKQszQ4ZGwY
+
+
 
 
