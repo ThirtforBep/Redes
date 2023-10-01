@@ -1,0 +1,90 @@
+-Configuracion basica de switches
+Router>enable
+Router#config term
+Enter configuration commands, one per line.  End with CNTL/Z.
+Router(config)#hostname ISP_NET
+ISP_NET(config)#line console 0
+ISP_NET(config-line)#password cisco
+ISP_NET(config-line)#login
+ISP_NET(config-line)#exit
+ISP_NET(config)#banner motd #Se encuentra configurando el Router ISP_NET. Ingrese su contrasena#
+ISP_NET(config)#exit
+ISP_NET#
+------------------------------------------------------------------------------
+-habilitar ipv6 e ipv4 en switches
+SW4_Intranet>enable
+Password: 
+SW4_Intranet#config term
+Enter configuration commands, one per line.  End with CNTL/Z.
+SW4_Intranet(config)#SDM PREFER DUAL-IPV4-AND-IPV6 DEFAULT
+Changes to the running SDM preferences have been stored, but cannot take effect until the next reload.
+Use 'show sdm prefer' to see what SDM preference is currently active.
+SW4_Intranet(config)#end
+SW4_Intranet#
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+-Configuracion Vlans para switches
+-------------------------------------------------------------------------------
+-Apagar interfaces
+
+SW3_Intranet(config)#ipv6 route ::/0 2001:1200:A5:1::1
+SW3_Intranet(config)#interface range fa0/1-24
+SW3_Intranet(config-if-range)#shutdown
+--------------------------------------------------------------------------------
+-Asignar interfaces troncales
+SW3_Intranet(config-if-range)#exit
+SW3_Intranet(config)#interface range fa0/1-5
+SW3_Intranet(config-if-range)#switchport mode trunk
+SW3_Intranet(config-if-range)#switchport trunk native vlan 99
+SW3_Intranet(config-if-range)#no shutdown 
+--------------------------------------------------------------------------------
+-Crear vlans
+SW3_Intranet(config)#vlan 25
+SW3_Intranet(config-vlan)#name Guest
+SW3_Intranet(config-vlan)#vlan 50
+SW3_Intranet(config-vlan)#name Internal
+SW3_Intranet(config-vlan)#vlan 75
+SW3_Intranet(config-vlan)#name Server
+SW3_Intranet(config-vlan)#vlan 100 
+SW3_Intranet(config-vlan)#name Voip
+SW3_Intranet(config-vlan)#vlan 99
+SW3_Intranet(config-vlan)#name Native
+SW3_Intranet(config-vlan)#exit
+
+-------------------------------------------------------------------
+-Rangos de vlans
+SW3_Intranet(config)#interface range fa0/6-11
+SW3_Intranet(config-if-range)#Switchport access vlan 25
+SW3_Intranet(config-if-range)#exit
+SW3_Intranet(config)#interface range fa0/12-16
+SW3_Intranet(config-if-range)#Switchport access vlan 50
+SW3_Intranet(config-if-range)#exit
+SW3_Intranet(config)#interface range fa0/17-20
+SW3_Intranet(config-if-range)#Switchport access vlan 75
+SW3_Intranet(config-if-range)#exit
+SW3_Intranet(config)#interface range fa0/21-24
+SW3_Intranet(config-if-range)#Switchport access vlan 100
+SW3_Intranet(config-if-range)#exit
+SW3_Intranet(config)#interface range fa0/1-5
+SW3_Intranet(config-if-range)#Switchport access vlan 99
+SW3_Intranet(config-if-range)#exit
+
+-------------------------------------------------------------
+-Asignar IPV6 a las interfaces 99 y reactivar interfaces
+SW3_Intranet(config)#interface vlan 99
+SW3_Intranet(config-if)#ipv6 address 2001:1200:A5:1::2/64
+SW3_Intranet(config-if)#exit
+SW3_Intranet(config)#interface range fa0/6-24
+SW3_Intranet(config-if-range)#no shutdown
+SW3_Intranet(config-if-range)#exit
+SW3_Intranet(config)#exit
+SW3_Intranet#
+%SYS-5-CONFIG_I: Configured from console by console
+
+SW3_Intranet#copy running-config startup-config 
+Destination filename [startup-config]? 
+Building configuration...
+[OK]
+
+
+

@@ -1,0 +1,108 @@
+-Configuracion basica de routers
+Router>enable
+Router#config term
+Enter configuration commands, one per line.  End with CNTL/Z.
+Router(config)#hostname ISP_NET
+ISP_NET(config)#line console 0
+ISP_NET(config-line)#password cisco
+ISP_NET(config-line)#login
+ISP_NET(config-line)#exit
+ISP_NET(config)#banner motd #Se encuentra configurando el Router ISP_NET. Ingrese su contrasena#
+ISP_NET(config)#exit
+ISP_NET#
+---------------------------------------------------------------------------
+-configurar router para ipv6
+ISP_FL>enable
+Password: 
+ISP_FL#config term
+Enter configuration commands, one per line.  End with CNTL/Z.
+ISP_FL(config)#IPv6 unicast-routing
+-----------------------------------------------------------------------------
+-Encender interfaz
+R1_BOG(config)#interface fa0/1
+R1_BOG(config-if)#no shutdown
+R1_BOG(config-if)#exit
+----------------------------------------------------------------------
+-Hacer encapsulacion
+R1_BOG(config-subif)#interface fa0/1.25
+R1_BOG(config-subif)#encapsulation dot1q 25
+R1_BOG(config-subif)#ipv6 address 2001:1200:A5:2::1/64
+R1_BOG(config-subif)#interface fa0/1.50
+R1_BOG(config-subif)#encapsulation dot1q 50
+R1_BOG(config-subif)#ipv6 address 2001:1200:A5:3::1/64
+R1_BOG(config-subif)#interface fa0/1.75
+R1_BOG(config-subif)#encapsulation dot1q 75
+R1_BOG(config-subif)#ipv6 address 2001:1200:A5:4::1/64
+R1_BOG(config-subif)#interface fa0/1.100
+R1_BOG(config-subif)#encapsulation dot1q 100
+R1_BOG(config-subif)#ipv6 address 2001:1200:A5:5::1/64
+R1_BOG(config-subif)#interface fa0/1.99
+R1_BOG(config-subif)#encapsulation dot1q 99
+R1_BOG(config-subif)#ipv6 address 2001:1200:A5:1::1/64
+R1_BOG(config-subif)#exit
+------------------------------------------------------------------
+-Usar router como proveedor DHCP
+R1_BOG(config-dhcpv6)#address prefix 2001:1200:A5::/48
+R1_BOG(config-dhcpv6)#dns-server 2001:1200:C5:1::3
+R1_BOG(config-dhcpv6)#exit
+R1_BOG(config)#interface fa0/1
+R1_BOG(config-if)#ipv6 dhcp server bogota
+R1_BOG(config-if)#ipv6 nd other-config-flag
+R1_BOG(config-if)#exit
+R1_BOG(config)#interface fa0/1.25
+R1_BOG(config-subif)#ipv6 dhcp server bogota
+R1_BOG(config-subif)#ipv6 nd other-config-flag
+R1_BOG(config-subif)#exit
+R1_BOG(config)#interface fa0/1.50
+R1_BOG(config-subif)#ipv6 dhcp server bogota
+R1_BOG(config-subif)#ipv6 nd other-config-flag
+R1_BOG(config-subif)#exit
+R1_BOG(config)#interface fa0/1.75
+R1_BOG(config-subif)#ipv6 dhcp server bogota
+R1_BOG(config-subif)#ipv6 nd other-config-flag
+R1_BOG(config-subif)#exit
+R1_BOG(config)#interface fa0/1.100
+R1_BOG(config-subif)#ipv6 dhcp server bogota
+R1_BOG(config-subif)#ipv6 nd other-config-flag
+R1_BOG(config-subif)#exit
+R1_BOG(config)#interface fa0/1.99
+R1_BOG(config-subif)#ipv6 dhcp server bogota
+R1_BOG(config-subif)#ipv6 nd other-config-flag
+R1_BOG(config-subif)#exit
+R1_BOG(config)#exit
+-----------------------------------------------------------------
+-Correr configuracion del router bogota
+R1_BOG#copy running-config startup-config
+Destination filename [startup-config]? 
+Building configuration...
+[OK]
+-----------------------------------------------------------------------
+-No pueden pasar por el 80
+R1_BOG(config)#ipv6 access-list NO-HTTP-BOGOTA
+R1_BOG(config-ipv6-acl)#deny tcp 2001:1200:A5:2::/64 any eq 80
+R1_BOG(config-ipv6-acl)#exit
+R1_BOG(config)#interface Fa0/0
+R1_BOG(config-if)#ipv6 traffic-filter NO-HTTP-BOGOTA out
+R1_BOG(config-if)#exit
+-------------------------------------------------------------
+-Pueden pasar por el 443
+R1_BOG(config)#ipv6 access-list HTTPs-BOGOTA
+R1_BOG(config-ipv6-acl)#permit tcp 2001:1200:A5:2::/64 any eq 443
+R1_BOG(config-ipv6-acl)#exit
+R1_BOG(config)#interface Fa0/0
+R1_BOG(config-if)#ipv6 traffic-filter HTTP-BOGOTA out
+R1_BOG(config-if)#exit
+R1_BOG(config)#exit
+-------------------------------------------------------------------
+-Ver datos
+R1_BOG#show access-lists
+IPv6 access list NO-HTTP-BOGOTA
+    deny tcp 2001:1200:A5:2::/64 any eq www
+IPv6 access list HTTPs-BOGOTA
+    permit tcp 2001:1200:A5:2::/64 any eq 443
+
+
+
+
+invitados guest no pasan por 443
+native 80
