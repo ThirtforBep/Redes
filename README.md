@@ -25,3 +25,19 @@ Para el desarrollo de la topología propuesta en el laboratorio, se van a tener 
 -Reserva de direcciones y jerarquía de estas
 
 -Enrutamiento
+
+## Diagrama
+![image](https://github.com/ThirtforBep/Redes/blob/main/Diagrama.png)
+
+## Subneteo
+### Subneteo INTRANET (BOG)
+![image](https://github.com/ThirtforBep/Redes/blob/main/Subneteo1.png)
+### Subneteo INTRANET (MAD)
+![image](https://github.com/ThirtforBep/Redes/blob/main/Subneteo2.png)
+### Subneteo DMZ -ISP/BOG
+![image](https://github.com/ThirtforBep/Redes/blob/main/Subneteo3.png)
+### Subneteo ISP/MAD
+![image](https://github.com/ThirtforBep/Redes/blob/main/Subneteo4.png)
+### Subneteo Internet
+![image](https://github.com/ThirtforBep/Redes/blob/main/Subneteo5.png)
+
